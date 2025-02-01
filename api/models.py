@@ -21,4 +21,4 @@ class ShoppingCartPosition(models.Model):
 class User(models.Model):
     email = models.CharField(max_length=50, validators=[EmailValidator()])
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)])
-    shopping_cart = models.OneToOneField(ShoppingCart, on_delete=models.CASCADE)
+    shopping_cart = models.OneToOneField(ShoppingCart, on_delete=models.CASCADE, default=None)
