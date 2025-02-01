@@ -1,0 +1,11 @@
+[
+  {
+    "model": "api.user",
+    "pk": 3,
+    "fields": {
+      "email": "manfred@lkwpeter.com",
+      "name": "Manni Görgens",
+      "shopping_cart": null
+    }
+  }
+]
