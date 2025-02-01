@@ -3,8 +3,9 @@ from http import HTTPStatus
 
 from django.http import HttpResponse
 from django.test import TestCase
-from api.models import Product
 from parameterized import parameterized
+
+from api.models import Product
 from ..enums.HttpHeaderContentType import HttpHeaderContentType
 
 
