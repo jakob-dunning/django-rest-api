@@ -6,7 +6,7 @@ from api.models import Product
 from ..enums.HttpHeaderContentType import HttpHeaderContentType
 
 class DeleteProductTestCase(TestCase):
-    fixtures: list = ['product.json']
+    fixtures: list[str] = ['product.json']
     fixture_product_id: int = 5
 
     def test_delete_product(self) -> None:

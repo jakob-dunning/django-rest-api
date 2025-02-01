@@ -6,11 +6,11 @@ from django.test import TestCase
 
 
 class GetProductTestCase(TestCase):
-    fixtures: list = ['product.json']
+    fixtures: list[str] = ['product.json']
 
     def test_get_product(self) -> None:
         response: HttpResponse = self.client.get('/api/product/5/')
-        product_data: dict = json.loads(response.content)
+        product_data: dict[str,str|int] = json.loads(response.content)
 
         self.assertDictEqual(
             product_data,

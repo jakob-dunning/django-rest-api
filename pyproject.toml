@@ -1,3 +1,4 @@
 [tool.mypy]
 exclude = ["migrations/"]
 ignore_missing_imports = true
+disallow_any_generics = true

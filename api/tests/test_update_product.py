@@ -8,11 +8,11 @@ from ..enums.HttpHeaderContentType import HttpHeaderContentType
 
 
 class UpdateProductTestCase(TestCase):
-    fixtures: list = ['product.json']
+    fixtures: list[str] = ['product.json']
     fixture_product_id: int = 5
 
     def test_update_product(self) -> None:
-        new_product_data: dict = {
+        new_product_data: dict[str,str|int] = {
             'manufacturer': 'NASA',
             'model': 'CX-77',
             'price': 20000,
@@ -23,7 +23,7 @@ class UpdateProductTestCase(TestCase):
             json.dumps(new_product_data)
         )
         response: HttpResponse = self.client.get(f'/api/product/{self.fixture_product_id}/')
-        actual_product_data: dict = json.loads(response.content)
+        actual_product_data: dict[str,str|int] = json.loads(response.content)
 
         self.assertDictEqual(new_product_data | {'id': self.fixture_product_id}, actual_product_data)
 

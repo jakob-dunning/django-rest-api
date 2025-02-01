@@ -14,7 +14,7 @@ from api import models
 
 @method_decorator(csrf_exempt, name='dispatch')
 class Product(View):
-    MUTABLE_PRODUCT_ATTRIBUTES: Final[set] = {'manufacturer', 'model', 'price', 'category'}
+    MUTABLE_PRODUCT_ATTRIBUTES: Final[set[str]] = {'manufacturer', 'model', 'price', 'category'}
 
     def get(self, _, product_id: int) -> JsonResponse:
         try:
@@ -25,9 +25,9 @@ class Product(View):
 
     def post(self, request: HttpRequest) -> JsonResponse:
         try:
-            post_data: dict = json.loads(request.body)
+            post_data: dict[str,str|int] = json.loads(request.body)
 
-            differing_keys: set = self._get_diff_of_input_keys_and_mutable_product_keys(post_data)
+            differing_keys: set[str] = self._get_diff_of_input_keys_and_mutable_product_keys(post_data)
             if len(differing_keys) > 0:
                 return JsonResponse({'error': f'Missing or wrong attribute(s) for model product: {differing_keys}'},
                                     status=HTTPStatus.BAD_REQUEST)
@@ -46,10 +46,10 @@ class Product(View):
 
     def put(self, request: HttpRequest, product_id: int) -> JsonResponse:
         try:
-            put_data: dict = json.loads(request.body)
+            put_data: dict[str,str|int] = json.loads(request.body)
             product: models.Product = models.Product.objects.get(pk=product_id)
 
-            differing_keys: set = self._get_diff_of_input_keys_and_mutable_product_keys(put_data)
+            differing_keys: set[str] = self._get_diff_of_input_keys_and_mutable_product_keys(put_data)
             if len(differing_keys) > 0:
                 return JsonResponse({'error': f'Missing or wrong attribute(s) for model product: {differing_keys}'},
                                     status=HTTPStatus.BAD_REQUEST)
@@ -64,5 +64,5 @@ class Product(View):
         except ValidationError as validation_error:
             return JsonResponse(validation_error.message_dict, status=HTTPStatus.BAD_REQUEST)
 
-    def _get_diff_of_input_keys_and_mutable_product_keys(self, input_data: dict) -> set:
+    def _get_diff_of_input_keys_and_mutable_product_keys(self, input_data: dict[str,str|int]) -> set[str]:
         return self.MUTABLE_PRODUCT_ATTRIBUTES.symmetric_difference(set(input_data.keys()))
