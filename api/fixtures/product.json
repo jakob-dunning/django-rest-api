@@ -1,0 +1,12 @@
+[
+  {
+    "model": "api.product",
+    "pk": 5,
+    "fields": {
+      "manufacturer": "NASA",
+      "model": "CX-77",
+      "price": 30000,
+      "category": "PC"
+    }
+  }
+]
