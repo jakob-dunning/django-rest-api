@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.test import TestCase
 
 from api.models import Product
-from ..enums.HttpHeaderContentType import HttpHeaderContentType
+from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 
 class DeleteProductTestCase(TestCase):

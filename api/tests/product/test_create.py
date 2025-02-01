@@ -6,7 +6,7 @@ from django.test import TestCase
 from parameterized import parameterized
 
 from api.models import Product
-from ..enums.HttpHeaderContentType import HttpHeaderContentType
+from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 
 class CreateProductTestCase(TestCase):
