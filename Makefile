@@ -27,3 +27,6 @@ stop_docker:
 
 static_type_check:
 	docker compose exec python sh -c "python -m mypy api"
+
+collect_static_files:
+	docker compose exec python sh -c "python manage.py collectstatic --noinput"
