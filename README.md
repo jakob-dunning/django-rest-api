@@ -8,6 +8,8 @@ My goal is to create a REST API with Django using as little third party software
 
 ## Running the API
 
+You need to have GIT and Docker installed to install the API. You can use the API with a HTTP client like Postman or curl.
+
 1. Clone the GIT repository
 2. Run `make init`
 3. Run `make start_server` to run the server
