@@ -4,6 +4,7 @@ from http import HTTPStatus
 from django.http import HttpResponse
 from django.test import TestCase
 from parameterized import parameterized
+from ..enums.HttpHeaderContentType import HttpHeaderContentType
 
 
 class UpdateProductTestCase(TestCase):
@@ -35,7 +36,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 30000,
                 'category': 'PC',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -49,7 +50,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 30000,
                 'category': 'PC',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -63,7 +64,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 30000,
                 'category': 'Software',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -77,7 +78,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 30000,
                 'category': 'PC',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -91,7 +92,7 @@ class UpdateProductTestCase(TestCase):
                 'price': -5,
                 'category': 'Software',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -105,7 +106,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 5000000,
                 'category': 'Software',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -119,7 +120,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 30000,
                 'category': 'Blockchain Artificial Intelligence Cloud Crypto Software',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -133,7 +134,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 30000,
                 'category': '',
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -164,7 +165,7 @@ class UpdateProductTestCase(TestCase):
         response: HttpResponse = self.client.put(
             f'/api/product/{self.fixture_product_id}/',
             json.dumps(product_data),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
@@ -179,7 +180,7 @@ class UpdateProductTestCase(TestCase):
                 'price': 999,
                 'unknown_field': 'xyz'
             }),
-            content_type='application/json'
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
