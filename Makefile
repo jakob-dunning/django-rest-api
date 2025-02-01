@@ -6,7 +6,7 @@ start_server: start_docker
 	docker compose exec python sh -c "gunicorn -b 0.0.0.0:8000 -w 3 --forwarded-allow-ips='*' --reload django_rest_api.wsgi"
 
 collect_static_files: start_docker
-	docker compose exec python sh -c "python manage.py collectstatic"
+	docker compose exec python sh -c "python manage.py collectstatic --noinput"
 
 test: start_docker static_type_check
 	docker compose exec python sh -c "python -Wa manage.py test"
@@ -27,6 +27,3 @@ stop_docker:
 
 static_type_check:
 	docker compose exec python sh -c "python -m mypy api"
-
-collect_static_files:
-	docker compose exec python sh -c "python manage.py collectstatic --noinput"
