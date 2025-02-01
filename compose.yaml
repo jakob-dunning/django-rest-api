@@ -6,7 +6,7 @@ services:
     volumes:
       - ./django_rest_api.conf:/etc/nginx/conf.d/default.conf
       - ./static:/var/www/static
-    working_dir: /app
+      - ./docs:/var/www/docs
   python:
     image: "python:3.13-alpine"
     volumes:

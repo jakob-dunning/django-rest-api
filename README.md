@@ -14,8 +14,8 @@ You need to have GIT and Docker installed to install the API. You can use the AP
 2. Copy `.env.dist` to `.env` 
 3. Run `make init`
 4. Run `make start_server` to run the server
-5. Access the API at [http://localhost:8000](http://localhost:8000)
+5. The API will now be accessible at [http://localhost:8000/](http://localhost:8000/)
 
 ## API documentation
 
-I find writing documentation is an important but tedious task, which is why I am relying on Swagger to do the job for me much better than I could have done it myself. Please visit [http://localhost:8000](http://localhost:8000) to view the documentation.
+I find writing documentation is an important but tedious task, which is why I am relying on Swagger to do the job for me much better than I could have done it myself. Please visit [http://localhost:8000/docs/](http://localhost:8000/docs/) to view the documentation.
