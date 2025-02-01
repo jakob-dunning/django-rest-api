@@ -43,7 +43,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_empty_manufacturer_returns_bad_request(self) -> None:
+    def test_update_product_with_empty_manufacturer_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
@@ -57,7 +57,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_long_model_name_returns_bad_request(self) -> None:
+    def test_update_product_with_long_model_name_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
@@ -71,7 +71,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_empty_model_name_returns_bad_request(self) -> None:
+    def test_update_product_with_empty_model_name_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
@@ -85,7 +85,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_negative_price_returns_bad_request(self) -> None:
+    def test_update_product_with_negative_price_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
@@ -99,7 +99,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_high_price_returns_bad_request(self) -> None:
+    def test_update_product_with_high_price_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
@@ -113,7 +113,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_long_category_name_returns_bad_request(self) -> None:
+    def test_update_product_with_long_category_name_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
@@ -127,7 +127,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_empty_category_name_returns_bad_request(self) -> None:
+    def test_update_product_with_empty_category_name_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
@@ -163,7 +163,7 @@ class UpdateProductTestCase(TestCase):
             'price': 30000
         }]
     ])
-    def test_create_product_with_missing_attribute_returns_bad_request(self, product_data) -> None:
+    def test_update_product_with_missing_attribute_returns_bad_request(self, product_data: dict[str | int]) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps(product_data),
@@ -172,7 +172,7 @@ class UpdateProductTestCase(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_unknown_attribute_returns_bad_request(self) -> None:
+    def test_update_product_with_unknown_attribute_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps({
