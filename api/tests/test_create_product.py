@@ -1,6 +1,7 @@
 import json
 from http import HTTPStatus
 
+from django.http import HttpResponse
 from django.test import TestCase
 from api.models import Product
 from parameterized import parameterized
@@ -15,7 +16,7 @@ class CreateProductTestCase(TestCase):
         price: int = 39900
         category: str = 'Smartphone'
 
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': manufacturer,
@@ -36,7 +37,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(product.category, category)
 
     def test_create_product_with_long_manufacturer_name_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'International Business Machines Corporation',
@@ -50,7 +51,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_empty_manufacturer_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': '',
@@ -58,13 +59,13 @@ class CreateProductTestCase(TestCase):
                 'price': 30000,
                 'category': 'PC',
             }),
-            content_type=HttpHeaderContentType
+            content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_long_model_name_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'Microsoft',
@@ -78,7 +79,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_empty_model_name_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'Microsoft',
@@ -92,7 +93,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_negative_price_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'Microsoft',
@@ -106,7 +107,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_high_price_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'Microsoft',
@@ -120,7 +121,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_long_category_name_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'Microsoft',
@@ -134,7 +135,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_empty_category_name_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'Microsoft',
@@ -170,7 +171,7 @@ class CreateProductTestCase(TestCase):
         }]
     ])
     def test_create_product_with_missing_attribute_returns_bad_request(self, product_data) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps(product_data),
             content_type=HttpHeaderContentType.JSON
@@ -179,7 +180,7 @@ class CreateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_unknown_attribute_returns_bad_request(self) -> None:
-        response = self.client.post(
+        response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'IBM',
