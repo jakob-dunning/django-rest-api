@@ -6,7 +6,7 @@ from django.test import TestCase
 
 
 class GetProductTestCase(TestCase):
-    fixtures = ['product.json']
+    fixtures: list = ['product.json']
 
     def test_get_product(self) -> None:
         response: HttpResponse = self.client.get('/api/product/5/')

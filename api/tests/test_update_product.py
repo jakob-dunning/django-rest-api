@@ -7,7 +7,7 @@ from parameterized import parameterized
 
 
 class UpdateProductTestCase(TestCase):
-    fixtures = ['product.json']
+    fixtures: list = ['product.json']
     fixture_product_id: int = 5
 
     def test_update_product(self) -> None:
@@ -170,7 +170,7 @@ class UpdateProductTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
     def test_create_product_with_unknown_attribute_returns_bad_request(self) -> None:
-        response:HttpResponse = self.client.put(
+        response: HttpResponse = self.client.put(
             f'/api/product/{self.fixture_product_id}/',
             json.dumps({
                 'manufacturer': 'IBM',
