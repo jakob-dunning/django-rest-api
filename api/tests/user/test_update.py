@@ -11,7 +11,7 @@ from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 class UpdateUserTestCase(TestCase):
     fixtures: list[str] = ['user.json']
-    FIXTURE_USER_ID: Final[int] = 5
+    FIXTURE_USER_ID: Final[int] = 3
 
     def test_update_user(self) -> None:
         new_user_data: dict[str, str | int] = {
@@ -25,7 +25,7 @@ class UpdateUserTestCase(TestCase):
         response: HttpResponse = self.client.get(f'/api/user/{self.FIXTURE_USER_ID}/')
         actual_user_data: dict[str, str | int] = json.loads(response.content)
 
-        self.assertDictEqual(new_user_data | {'id': self.FIXTURE_USER_ID}, actual_user_data)
+        self.assertDictEqual(new_user_data | {'id': self.FIXTURE_USER_ID, 'shopping_cart': None}, actual_user_data)
 
     def test_update_user_with_long_email_address_returns_bad_request(self, ) -> None:
         response: HttpResponse = self.client.put(
