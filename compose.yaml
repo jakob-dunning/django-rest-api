@@ -10,12 +10,7 @@ services:
   python:
     image: "python:3.13-alpine"
     volumes:
-      - ./pyproject.toml:/app/pyproject.toml
-      - ./requirements.txt:/app/requirements.txt
-      - ./manage.py:/app/manage.py
-      - ./django_rest_api:/app/django_rest_api
-      - ./api:/app/api
-      - ./static:/app/static
+      - .:/app
     working_dir: /app
     command: "tail -f /dev/null"
     env_file: ".env"
