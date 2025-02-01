@@ -6,8 +6,8 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.forms import model_to_dict
 from django.http import HttpRequest, JsonResponse
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 from api import models
 
@@ -25,7 +25,7 @@ class Product(View):
 
     def post(self, request: HttpRequest) -> JsonResponse:
         try:
-            post_data: dict[str,str|int] = json.loads(request.body)
+            post_data: dict[str, str | int] = json.loads(request.body)
 
             differing_keys: set[str] = self._get_diff_of_input_keys_and_mutable_product_keys(post_data)
             if len(differing_keys) > 0:
@@ -46,7 +46,7 @@ class Product(View):
 
     def put(self, request: HttpRequest, product_id: int) -> JsonResponse:
         try:
-            put_data: dict[str,str|int] = json.loads(request.body)
+            put_data: dict[str, str | int] = json.loads(request.body)
             product: models.Product = models.Product.objects.get(pk=product_id)
 
             differing_keys: set[str] = self._get_diff_of_input_keys_and_mutable_product_keys(put_data)
@@ -64,5 +64,12 @@ class Product(View):
         except ValidationError as validation_error:
             return JsonResponse(validation_error.message_dict, status=HTTPStatus.BAD_REQUEST)
 
-    def _get_diff_of_input_keys_and_mutable_product_keys(self, input_data: dict[str,str|int]) -> set[str]:
+    def delete(self, _, product_id: int) -> JsonResponse:
+        try:
+            models.Product.objects.get(pk=product_id).delete()
+            return JsonResponse({}, status=HTTPStatus.NO_CONTENT)
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': f'Product with id: {product_id} not found'}, status=HTTPStatus.NOT_FOUND)
+
+    def _get_diff_of_input_keys_and_mutable_product_keys(self, input_data: dict[str, str | int]) -> set[str]:
         return self.MUTABLE_PRODUCT_ATTRIBUTES.symmetric_difference(set(input_data.keys()))
