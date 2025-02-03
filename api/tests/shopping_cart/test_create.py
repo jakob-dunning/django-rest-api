@@ -49,3 +49,12 @@ class CreateShoppingCartTestCase(TestCase):
         )
 
         self.assertEqual(response.status_code, HTTPStatus.CONFLICT)
+
+    def test_create_shopping_cart_with_missing_user_id_returns_bad_request(self) -> None:
+        response: HttpResponse = self.client.post(
+            '/api/shopping-cart/',
+            {},
+            content_type=HttpHeaderContentType.JSON
+        )
+
+        self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
