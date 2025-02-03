@@ -1,0 +1,17 @@
+[
+  {
+    "model": "api.shoppingcart",
+    "pk": 7,
+    "fields": {
+    }
+  },
+  {
+    "model": "api.user",
+    "pk": 17,
+    "fields": {
+      "email": "manfred@lkwpeter.com",
+      "name": "Manni Görgens",
+      "shopping_cart": 7
+    }
+  }
+]
