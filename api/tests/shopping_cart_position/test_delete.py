@@ -4,7 +4,7 @@ from typing import Final
 from django.http import HttpResponse
 from django.test import TestCase
 
-from api.models import Product
+from api import models
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 VALID_SHOPPING_CART_POSITION_ID: Final[int] = 23
@@ -19,7 +19,7 @@ class DeleteShoppingCartPositionTestCase(TestCase):
         )
 
         self.assertEqual(response.status_code, HTTPStatus.NO_CONTENT)
-        self.assertEqual(Product.objects.filter(pk=VALID_SHOPPING_CART_POSITION_ID).exists(), False)
+        self.assertEqual(models.Product.objects.filter(pk=VALID_SHOPPING_CART_POSITION_ID).exists(), False)
 
     def test_delete_product_with_wrong_id_returns_not_found(self) -> None:
         response: HttpResponse = self.client.delete(

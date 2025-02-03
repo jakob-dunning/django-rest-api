@@ -6,7 +6,7 @@ from django.test import TestCase
 from parameterized import parameterized
 
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
-from api.models import User
+from api import models
 
 
 class CreateUserTestCase(TestCase):
@@ -25,7 +25,7 @@ class CreateUserTestCase(TestCase):
         )
         response_body = json.loads(response.content)
 
-        user = User.objects.get(pk=response_body['id'])
+        user = models.User.objects.get(pk=response_body['id'])
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(user.email, email)

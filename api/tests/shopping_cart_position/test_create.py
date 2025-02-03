@@ -7,7 +7,7 @@ from django.test import TestCase
 from parameterized import parameterized
 
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
-from api.models import ShoppingCartPosition
+from api import models
 
 VALID_PRODUCT_ID: Final[int] = 5
 VALID_SHOPPING_CART_ID: Final[int] = 7
@@ -28,7 +28,7 @@ class CreateShoppingCartPositionTestCase(TestCase):
         )
         response_body = json.loads(response.content)
 
-        shopping_cart_position: ShoppingCartPosition = ShoppingCartPosition.objects.get(pk=response_body['id'])
+        shopping_cart_position: models.ShoppingCartPosition = models.ShoppingCartPosition.objects.get(pk=response_body['id'])
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(shopping_cart_position.product.id, VALID_PRODUCT_ID)

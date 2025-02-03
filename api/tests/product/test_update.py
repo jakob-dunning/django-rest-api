@@ -163,7 +163,8 @@ class UpdateProductTestCase(TestCase):
             'price': 30000
         }]
     ])
-    def test_update_product_with_missing_attribute_returns_bad_request(self, product_data: dict[str, str | int]) -> None:
+    def test_update_product_with_missing_attribute_returns_bad_request(self,
+                                                                       product_data: dict[str, str | int]) -> None:
         response: HttpResponse = self.client.put(
             f'/api/product/{self.FIXTURE_PRODUCT_ID}/',
             json.dumps(product_data),

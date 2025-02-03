@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.test import TestCase
 
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
-from api.models import ShoppingCart, User
+from api import models
 
 
 class CreateShoppingCartTestCase(TestCase):
@@ -21,8 +21,8 @@ class CreateShoppingCartTestCase(TestCase):
         )
         response_body = json.loads(response.content)
 
-        shopping_cart: ShoppingCart = ShoppingCart.objects.get(pk=response_body['id'])
-        user: User = User.objects.get(pk=3)
+        shopping_cart: models.ShoppingCart = models.ShoppingCart.objects.get(pk=response_body['id'])
+        user: models.User = models.User.objects.get(pk=3)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(user.shopping_cart, shopping_cart)

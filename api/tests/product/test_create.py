@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.test import TestCase
 from parameterized import parameterized
 
-from api.models import Product
+from api import models
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 
@@ -29,7 +29,7 @@ class CreateProductTestCase(TestCase):
         )
         response_body = json.loads(response.content)
 
-        product = Product.objects.get(pk=response_body['id'])
+        product = models.Product.objects.get(pk=response_body['id'])
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(product.manufacturer, manufacturer)
