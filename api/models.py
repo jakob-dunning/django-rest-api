@@ -15,8 +15,8 @@ class ShoppingCart(models.Model):
 
 class ShoppingCartPosition(models.Model):
     shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE, related_name="shopping_cart_positions")
-    product = models.ManyToManyField(Product)
-    amount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)])
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="products")
+    amount = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10000)])
 
 
 class User(models.Model):
