@@ -10,7 +10,7 @@ from api.enums.HttpHeaderContentType import HttpHeaderContentType
 from api.models import ShoppingCartPosition
 
 VALID_PRODUCT_ID: Final[int] = 5
-VALID_SHOPPING_CART_ID: Final[int] = 5
+VALID_SHOPPING_CART_ID: Final[int] = 7
 VALID_AMOUNT: Final[int] = 3
 
 class CreateShoppingCartPositionTestCase(TestCase):

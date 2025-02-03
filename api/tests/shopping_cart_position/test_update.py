@@ -7,24 +7,26 @@ from django.test import TestCase
 
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
-SHOPPING_CART_POSITION_FIXTURE_ID: Final[int] = 5
+SHOPPING_CART_POSITION_FIXTURE_ID: Final[int] = 23
 
 
 class UpdateShoppingCartPositionTestCase(TestCase):
     fixtures: list[str] = ['user_with_shopping_cart_and_shopping_cart_position.json']
 
     def test_update_shopping_cart_position(self) -> None:
-        new_product_data: dict[str, str | int] = {
+        new_shopping_cart_position_data: dict[str, str | int] = {
             'amount': 3,
         }
-        self.client.put(
+        response = self.client.put(
             f'/api/shopping-cart-position/{SHOPPING_CART_POSITION_FIXTURE_ID}/',
-            json.dumps(new_product_data)
+            json.dumps(new_shopping_cart_position_data)
         )
-        response: HttpResponse = self.client.get(f'/api/shopping-cart-position/{SHOPPING_CART_POSITION_FIXTURE_ID}/')
-        actual_product_data: dict[str, str | int] = json.loads(response.content)
+        actual_product_data: dict[str, int] = json.loads(response.content)
 
-        self.assertDictEqual(new_product_data | {'id': SHOPPING_CART_POSITION_FIXTURE_ID}, actual_product_data)
+        self.assertDictEqual(
+            new_shopping_cart_position_data | {'id': SHOPPING_CART_POSITION_FIXTURE_ID, 'product': 25,
+                                               'shopping_cart': 9},
+            actual_product_data)
 
     def test_update_shopping_cart_position_with_non_positive_amount_returns_bad_request(self, ) -> None:
         response: HttpResponse = self.client.put(

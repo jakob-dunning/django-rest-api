@@ -4,6 +4,7 @@ from http import HTTPStatus
 from django.http import HttpResponse
 from django.test import TestCase
 
+
 class GetShoppingCartPositionTestCase(TestCase):
     fixtures: list[str] = ['user_with_shopping_cart_and_shopping_cart_position.json']
 
@@ -17,8 +18,7 @@ class GetShoppingCartPositionTestCase(TestCase):
                 'id': 23,
                 'product': 25,
                 'shopping_cart': 9,
-                'price': 8999,
-                'category': 'Terminator'
+                'amount': 9
             }
         )
 
