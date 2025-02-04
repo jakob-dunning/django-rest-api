@@ -4,26 +4,27 @@ from http import HTTPStatus
 from django.http import HttpResponse
 from django.test import TestCase
 from parameterized import parameterized
+from typing_extensions import Final
 
 from api import models
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
+
+VALID_MANUFACTURER: Final[str] = 'Samsung'
+VALID_MODEL: Final[str] = 'Galaxy S10'
+VALID_PRICE: Final[int] = 39900
+VALID_CATEGORY: Final[str] = 'Smartphone'
 
 
 class CreateProductTestCase(TestCase):
 
     def test_create_product(self) -> None:
-        manufacturer: str = 'Samsung'
-        model: str = 'Galaxy S10'
-        price: int = 39900
-        category: str = 'Smartphone'
-
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': manufacturer,
-                'model': model,
-                'price': price,
-                'category': category
+                'manufacturer': VALID_MANUFACTURER,
+                'model': VALID_MODEL,
+                'price': VALID_PRICE,
+                'category': VALID_CATEGORY
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -32,19 +33,19 @@ class CreateProductTestCase(TestCase):
         product = models.Product.objects.get(pk=response_body['id'])
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(product.manufacturer, manufacturer)
-        self.assertEqual(product.model, model)
-        self.assertEqual(product.price, price)
-        self.assertEqual(product.category, category)
+        self.assertEqual(product.manufacturer, VALID_MANUFACTURER)
+        self.assertEqual(product.model, VALID_MODEL)
+        self.assertEqual(product.price, VALID_PRICE)
+        self.assertEqual(product.category, VALID_CATEGORY)
 
     def test_create_product_with_long_manufacturer_name_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
                 'manufacturer': 'International Business Machines Corporation',
-                'model': 'PDP-11',
-                'price': 30000,
-                'category': 'PC',
+                'model': VALID_MODEL,
+                'price': VALID_PRICE,
+                'category': VALID_CATEGORY,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -56,9 +57,9 @@ class CreateProductTestCase(TestCase):
             '/api/product/',
             json.dumps({
                 'manufacturer': '',
-                'model': 'PDP-11',
-                'price': 30000,
-                'category': 'PC',
+                'model': VALID_MODEL,
+                'price': VALID_PRICE,
+                'category': VALID_CATEGORY,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -69,10 +70,10 @@ class CreateProductTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': 'Microsoft',
+                'manufacturer': VALID_MANUFACTURER,
                 'model': 'Microsoft Windows Vista Ultimate UPGRADE Limited Numbered Signature Blockchain Artifical Intelligence Edition',
-                'price': 30000,
-                'category': 'Software',
+                'price': VALID_PRICE,
+                'category': VALID_CATEGORY,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -83,10 +84,10 @@ class CreateProductTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': 'Microsoft',
+                'manufacturer': VALID_MANUFACTURER,
                 'model': '',
-                'price': 30000,
-                'category': 'PC',
+                'price': VALID_PRICE,
+                'category': VALID_CATEGORY,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -97,24 +98,24 @@ class CreateProductTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': 'Microsoft',
-                'model': 'Windows',
+                'manufacturer': VALID_MANUFACTURER,
+                'model': VALID_MODEL,
                 'price': -5,
-                'category': 'Software',
+                'category': VALID_CATEGORY,
             }),
             content_type=HttpHeaderContentType.JSON
         )
 
         self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
 
-    def test_create_product_with_high_price_returns_bad_request(self) -> None:
+    def test_create_product_with_too_high_price_returns_bad_request(self) -> None:
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': 'Microsoft',
-                'model': 'Windows',
+                'manufacturer': VALID_MANUFACTURER,
+                'model': VALID_MODEL,
                 'price': 5000000,
-                'category': 'Software',
+                'category': VALID_CATEGORY,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -125,9 +126,9 @@ class CreateProductTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': 'Microsoft',
-                'model': 'Windows',
-                'price': 30000,
+                'manufacturer': VALID_MANUFACTURER,
+                'model': VALID_MODEL,
+                'price': VALID_PRICE,
                 'category': 'Blockchain Artificial Intelligence Cloud Crypto Software',
             }),
             content_type=HttpHeaderContentType.JSON
@@ -139,9 +140,9 @@ class CreateProductTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': 'Microsoft',
-                'model': 'Windows',
-                'price': 30000,
+                'manufacturer': VALID_MANUFACTURER,
+                'model': VALID_MODEL,
+                'price': VALID_PRICE,
                 'category': '',
             }),
             content_type=HttpHeaderContentType.JSON
@@ -151,24 +152,24 @@ class CreateProductTestCase(TestCase):
 
     @parameterized.expand([
         [{
-            'model': 'PDP-11',
-            'price': 30000,
-            'category': 'PC',
+            'model': VALID_MODEL,
+            'price': VALID_PRICE,
+            'category': VALID_CATEGORY,
         }],
         [{
-            'manufacturer': 'IBM',
-            'price': 30000,
-            'category': 'PC',
+            'manufacturer': VALID_MANUFACTURER,
+            'price': VALID_PRICE,
+            'category': VALID_CATEGORY,
         }],
         [{
-            'manufacturer': 'IBM',
-            'model': 'PDP-11',
-            'category': 'PC',
+            'manufacturer': VALID_MANUFACTURER,
+            'model': VALID_MODEL,
+            'category': VALID_CATEGORY,
         }],
         [{
-            'manufacturer': 'IBM',
-            'model': 'PDP-11',
-            'price': 30000
+            'manufacturer': VALID_MANUFACTURER,
+            'model': VALID_MODEL,
+            'price': VALID_PRICE
         }]
     ])
     def test_create_product_with_missing_attribute_returns_bad_request(self, product_data) -> None:
@@ -184,10 +185,10 @@ class CreateProductTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/product/',
             json.dumps({
-                'manufacturer': 'IBM',
-                'model': 'PDP-11',
-                'category': 'PC',
-                'price': 999,
+                'manufacturer': VALID_MANUFACTURER,
+                'model': VALID_MODEL,
+                'category': VALID_CATEGORY,
+                'price': VALID_PRICE,
                 'unknown_field': 'xyz'
             }),
             content_type=HttpHeaderContentType.JSON

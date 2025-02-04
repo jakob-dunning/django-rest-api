@@ -8,6 +8,7 @@ from api import models
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 VALID_SHOPPING_CART_POSITION_ID: Final[int] = 23
+INVALID_SHOPPING_CART_POSITION_ID: Final[int] = 999
 
 class DeleteShoppingCartPositionTestCase(TestCase):
     fixtures: list[str] = ['user_with_shopping_cart_and_shopping_cart_position.json']
@@ -23,7 +24,7 @@ class DeleteShoppingCartPositionTestCase(TestCase):
 
     def test_delete_product_with_wrong_id_returns_not_found(self) -> None:
         response: HttpResponse = self.client.delete(
-            '/api/shopping-cart-position/999/',
+            f'/api/shopping-cart-position/{INVALID_SHOPPING_CART_POSITION_ID}/',
             content_type=HttpHeaderContentType.JSON
         )
 

@@ -6,12 +6,15 @@ from django.http import HttpResponse
 from django.test import TestCase
 from parameterized import parameterized
 
-from api.enums.HttpHeaderContentType import HttpHeaderContentType
 from api import models
+from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 VALID_PRODUCT_ID: Final[int] = 5
 VALID_SHOPPING_CART_ID: Final[int] = 7
 VALID_AMOUNT: Final[int] = 3
+INVALID_SHOPPING_CART_ID: Final[int] = 999
+INVALID_PRODUCT_ID: Final[int] = 999
+
 
 class CreateShoppingCartPositionTestCase(TestCase):
     fixtures = ['user_with_shopping_cart.json', 'product.json']
@@ -28,7 +31,8 @@ class CreateShoppingCartPositionTestCase(TestCase):
         )
         response_body = json.loads(response.content)
 
-        shopping_cart_position: models.ShoppingCartPosition = models.ShoppingCartPosition.objects.get(pk=response_body['id'])
+        shopping_cart_position: models.ShoppingCartPosition = models.ShoppingCartPosition.objects.get(
+            pk=response_body['id'])
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(shopping_cart_position.product.id, VALID_PRODUCT_ID)
@@ -39,7 +43,7 @@ class CreateShoppingCartPositionTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/shopping-cart-position/',
             json.dumps({
-                'product_id': 999,
+                'product_id': INVALID_PRODUCT_ID,
                 'shopping_cart_id': VALID_SHOPPING_CART_ID,
                 'amount': VALID_AMOUNT
             }),
@@ -53,7 +57,7 @@ class CreateShoppingCartPositionTestCase(TestCase):
             '/api/shopping-cart-position/',
             json.dumps({
                 'product_id': VALID_PRODUCT_ID,
-                'shopping_cart_id': 999,
+                'shopping_cart_id': INVALID_SHOPPING_CART_ID,
                 'amount': VALID_AMOUNT
             }),
             content_type=HttpHeaderContentType.JSON
@@ -90,11 +94,11 @@ class CreateShoppingCartPositionTestCase(TestCase):
     @parameterized.expand([
         [{
             'shopping_cart_id': VALID_SHOPPING_CART_ID,
-            'amount': 3,
+            'amount': VALID_AMOUNT,
         }],
         [{
             'product_id': VALID_PRODUCT_ID,
-            'amount': 3,
+            'amount': VALID_AMOUNT,
         }],
         [{
             'product_id': VALID_PRODUCT_ID,

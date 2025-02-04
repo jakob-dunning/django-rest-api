@@ -1,11 +1,15 @@
 import json
 from http import HTTPStatus
+from typing import Final
 
 from django.http import HttpResponse
 from django.test import TestCase
 
-from api.enums.HttpHeaderContentType import HttpHeaderContentType
 from api import models
+from api.enums.HttpHeaderContentType import HttpHeaderContentType
+
+USER_WITH_SHOPPING_CART_ID: Final[int] = 17
+USER_WITHOUT_SHOPPING_CART_ID: Final[int] = 3
 
 
 class CreateShoppingCartTestCase(TestCase):
@@ -15,7 +19,7 @@ class CreateShoppingCartTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/shopping-cart/',
             {
-                'user_id': 3
+                'user_id': USER_WITHOUT_SHOPPING_CART_ID
             },
             content_type=HttpHeaderContentType.JSON
         )
@@ -43,7 +47,7 @@ class CreateShoppingCartTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/shopping-cart/',
             {
-                'user_id': 17
+                'user_id': USER_WITH_SHOPPING_CART_ID
             },
             content_type=HttpHeaderContentType.JSON
         )
@@ -54,6 +58,18 @@ class CreateShoppingCartTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/shopping-cart/',
             {},
+            content_type=HttpHeaderContentType.JSON
+        )
+
+        self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
+
+    def test_create_shopping_cart_with_unknown_attribute_returns_bad_request(self) -> None:
+        response: HttpResponse = self.client.post(
+            '/api/shopping-cart/',
+            {
+                'user_id': USER_WITHOUT_SHOPPING_CART_ID,
+                'unknown_attribute': 'ksdfhu'
+            },
             content_type=HttpHeaderContentType.JSON
         )
 

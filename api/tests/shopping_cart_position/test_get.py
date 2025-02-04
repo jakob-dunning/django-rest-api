@@ -1,8 +1,15 @@
 import json
 from http import HTTPStatus
+from typing import Final
 
 from django.http import HttpResponse
 from django.test import TestCase
+
+SHOPPING_CART_POSITION_FIXTURE_ID: Final[int] = 23
+SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID: Final[int] = 25
+SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID: Final[int] = 9
+SHOPPING_CART_POSITION_FIXTURE_AMOUNT: Final[int] = 9
+INVALID_SHOPPING_CART_POSITION_ID: Final[int] = 999
 
 
 class GetShoppingCartPositionTestCase(TestCase):
@@ -15,14 +22,14 @@ class GetShoppingCartPositionTestCase(TestCase):
         self.assertDictEqual(
             shopping_cart_position_data,
             {
-                'id': 23,
-                'product': 25,
-                'shopping_cart': 9,
-                'amount': 9
+                'id': SHOPPING_CART_POSITION_FIXTURE_ID,
+                'product': SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID,
+                'shopping_cart': SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID,
+                'amount': SHOPPING_CART_POSITION_FIXTURE_AMOUNT
             }
         )
 
     def test_get_product_with_non_existing_id_returns_not_found(self) -> None:
-        response: HttpResponse = self.client.get('/api/shopping-cart-position/99/')
+        response: HttpResponse = self.client.get(f'/api/shopping-cart-position/{INVALID_SHOPPING_CART_POSITION_ID}/')
 
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)

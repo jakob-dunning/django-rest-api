@@ -1,25 +1,26 @@
 import json
 from http import HTTPStatus
+from typing import Final
 
 from django.http import HttpResponse
 from django.test import TestCase
 from parameterized import parameterized
 
-from api.enums.HttpHeaderContentType import HttpHeaderContentType
 from api import models
+from api.enums.HttpHeaderContentType import HttpHeaderContentType
+
+VALID_EMAIL: Final[str] = 'hansi@haxno.ul'
+VALID_NAME: Final[str] = 'Johnny Bravo'
 
 
 class CreateUserTestCase(TestCase):
 
     def test_create_user(self) -> None:
-        email: str = 'hansi@haxno.ul'
-        name: str = 'Johnny Bravo'
-
         response: HttpResponse = self.client.post(
             '/api/user/',
             json.dumps({
-                'email': email,
-                'name': name,
+                'email': VALID_EMAIL,
+                'name': VALID_NAME,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -28,8 +29,8 @@ class CreateUserTestCase(TestCase):
         user = models.User.objects.get(pk=response_body['id'])
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(user.email, email)
-        self.assertEqual(user.name, name)
+        self.assertEqual(user.email, VALID_EMAIL)
+        self.assertEqual(user.name, VALID_NAME)
         self.assertEqual(user.shopping_cart, None)
 
     def test_create_user_with_long_email_address_returns_bad_request(self) -> None:
@@ -37,7 +38,7 @@ class CreateUserTestCase(TestCase):
             '/api/user/',
             json.dumps({
                 'email': 'karl.friedrich.von.und.zu.boerne@mymotherfuckinglongurl.com',
-                'name': 'Karl Friedrich von und zu Börne',
+                'name': VALID_NAME,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -49,7 +50,7 @@ class CreateUserTestCase(TestCase):
             '/api/user/',
             json.dumps({
                 'email': '',
-                'name': 'Heinz Strunk',
+                'name': VALID_NAME,
             }),
             content_type=HttpHeaderContentType.JSON
         )
@@ -60,7 +61,7 @@ class CreateUserTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/user/',
             json.dumps({
-                'email': 'karl@taxis.com',
+                'email': VALID_EMAIL,
                 'name': 'Karl-Heinz Eckart von Hirschhausen zu Thurn und Taxis Rothschild',
             }),
             content_type=HttpHeaderContentType.JSON
@@ -72,7 +73,7 @@ class CreateUserTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/user/',
             json.dumps({
-                'email': 'hans@nuxt.ll',
+                'email': VALID_EMAIL,
                 'name': '',
             }),
             content_type=HttpHeaderContentType.JSON
@@ -82,10 +83,10 @@ class CreateUserTestCase(TestCase):
 
     @parameterized.expand([
         [{
-            'email': 'hans@nasa.ff',
+            'email': VALID_EMAIL,
         }],
         [{
-            'name': 'Hoschi Hans',
+            'name': VALID_NAME,
         }]
     ])
     def test_create_product_with_missing_attribute_returns_bad_request(self, user_data: dict[str, str]) -> None:
@@ -101,8 +102,8 @@ class CreateUserTestCase(TestCase):
         response: HttpResponse = self.client.post(
             '/api/user/',
             json.dumps({
-                'email': 'jksghdf@ffff.dd',
-                'name': 'Ozzy XXX',
+                'email': VALID_EMAIL,
+                'name': VALID_NAME,
                 'unknown_field': 'xyz'
             }),
             content_type=HttpHeaderContentType.JSON

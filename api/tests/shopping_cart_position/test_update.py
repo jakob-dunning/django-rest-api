@@ -7,7 +7,10 @@ from django.test import TestCase
 
 from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
+VALID_AMOUNT: Final[int] = 8
 SHOPPING_CART_POSITION_FIXTURE_ID: Final[int] = 23
+SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID: Final[int] = 25
+SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID: Final[int] = 9
 
 
 class UpdateShoppingCartPositionTestCase(TestCase):
@@ -24,9 +27,13 @@ class UpdateShoppingCartPositionTestCase(TestCase):
         actual_product_data: dict[str, int] = json.loads(response.content)
 
         self.assertDictEqual(
-            new_shopping_cart_position_data | {'id': SHOPPING_CART_POSITION_FIXTURE_ID, 'product': 25,
-                                               'shopping_cart': 9},
-            actual_product_data)
+            new_shopping_cart_position_data | {
+                'id': SHOPPING_CART_POSITION_FIXTURE_ID,
+                'product': SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID,
+                'shopping_cart': SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID
+            },
+            actual_product_data
+        )
 
     def test_update_shopping_cart_position_with_non_positive_amount_returns_bad_request(self, ) -> None:
         response: HttpResponse = self.client.put(
@@ -63,7 +70,7 @@ class UpdateShoppingCartPositionTestCase(TestCase):
         response: HttpResponse = self.client.put(
             f'/api/shopping-cart-position/{SHOPPING_CART_POSITION_FIXTURE_ID}/',
             json.dumps({
-                'amount': 8,
+                'amount': VALID_AMOUNT,
                 'unknown_field': 'xyz'
             }),
             content_type=HttpHeaderContentType.JSON
