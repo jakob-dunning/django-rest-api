@@ -6,14 +6,14 @@ from django.http import HttpResponse
 from django.test import TestCase
 
 SHOPPING_CART_POSITION_FIXTURE_ID: Final[int] = 23
-SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID: Final[int] = 25
-SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID: Final[int] = 9
+SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID: Final[int] = 5
+SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID: Final[int] = 7
 SHOPPING_CART_POSITION_FIXTURE_AMOUNT: Final[int] = 9
 INVALID_SHOPPING_CART_POSITION_ID: Final[int] = 999
 
 
 class GetShoppingCartPositionTestCase(TestCase):
-    fixtures: list[str] = ['user_with_shopping_cart_and_shopping_cart_position.json']
+    fixtures: list[str] = ['product.json', 'user_with_shopping_cart.json', 'shopping_cart_position.json']
 
     def test_get_shopping_cart_position(self) -> None:
         response: HttpResponse = self.client.get('/api/shopping-cart-position/23/')

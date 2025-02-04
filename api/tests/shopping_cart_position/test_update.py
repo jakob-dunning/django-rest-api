@@ -9,12 +9,12 @@ from api.enums.HttpHeaderContentType import HttpHeaderContentType
 
 VALID_AMOUNT: Final[int] = 8
 SHOPPING_CART_POSITION_FIXTURE_ID: Final[int] = 23
-SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID: Final[int] = 25
-SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID: Final[int] = 9
+SHOPPING_CART_POSITION_FIXTURE_PRODUCT_ID: Final[int] = 5
+SHOPPING_CART_POSITION_FIXTURE_SHOPPING_CART_ID: Final[int] = 7
 
 
 class UpdateShoppingCartPositionTestCase(TestCase):
-    fixtures: list[str] = ['user_with_shopping_cart_and_shopping_cart_position.json']
+    fixtures: list[str] = ['product.json', 'user_with_shopping_cart.json', 'shopping_cart_position.json']
 
     def test_update_shopping_cart_position(self) -> None:
         new_shopping_cart_position_data: dict[str, str | int] = {

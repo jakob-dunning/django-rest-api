@@ -10,8 +10,9 @@ from api.enums.HttpHeaderContentType import HttpHeaderContentType
 VALID_SHOPPING_CART_POSITION_ID: Final[int] = 23
 INVALID_SHOPPING_CART_POSITION_ID: Final[int] = 999
 
+
 class DeleteShoppingCartPositionTestCase(TestCase):
-    fixtures: list[str] = ['user_with_shopping_cart_and_shopping_cart_position.json']
+    fixtures: list[str] = ['product.json', 'user_with_shopping_cart.json', 'shopping_cart_position.json']
 
     def test_delete_shopping_cart_position(self) -> None:
         response: HttpResponse = self.client.delete(

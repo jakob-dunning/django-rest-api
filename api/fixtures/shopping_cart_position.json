@@ -1,0 +1,11 @@
+[
+  {
+    "model": "api.shoppingcartposition",
+    "pk": 23,
+    "fields": {
+      "product": 5,
+      "shopping_cart": 7,
+      "amount": 9
+    }
+  }
+]
