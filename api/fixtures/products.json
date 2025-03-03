@@ -1,0 +1,22 @@
+[
+  {
+    "model": "api.product",
+    "pk": 3,
+    "fields": {
+      "manufacturer": "B&O",
+      "model": "Beovox 300",
+      "price": 255000,
+      "category": "Speaker"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 6,
+    "fields": {
+      "manufacturer": "Heinz",
+      "model": "Ketchup",
+      "price": 400,
+      "category": "Condiment"
+    }
+  }
+]
