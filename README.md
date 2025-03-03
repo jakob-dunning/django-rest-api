@@ -4,7 +4,9 @@ This is a learning project for me to learn using Django + Python. I have rarely 
 
 Also I wondered whether I should take my career as a software developer down a new path, coding Python for a change.
 
-My goal is to create a REST API with Django using as little third party software as possible, which is why I haven't used the Django REST Framework and am using built-in tools like Unittest instead of e.g. Pytest.
+My goal is to create a REST API with Django using as little third party software as possible, which is why I ~~haven't used the Django REST Framework and~~ am using built-in tools like Unittest instead of e.g. Pytest.
+
+After some research, I have decided to use the Django Rest Framework because it is impossible to create a REST api in Django without rewriting the URL dispatcher in order to be able to route the same URL to different view methods depending on the http method used. 
 
 ## Running the API
 
